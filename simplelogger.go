@@ -7,10 +7,9 @@ import (
 
 	"encoding/json"
 
-	"time"
-
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+	"time"
 )
 
 // Level is type of log levels
@@ -115,40 +114,48 @@ func rebuildLoggerFromCfg() {
 }
 
 func Debugf(format string, args ...interface{}) {
-	sugar.With(zap.Time("ts", time.Now())).Debugf(format, args...)
+	args = append([]interface{}{time.Now().Format("2006-01-02 15:04:05.000")}, args...)
+	sugar.Debugf("%s - "+format, args...)
 }
 
 func Infof(format string, args ...interface{}) {
-	sugar.With(zap.Time("ts", time.Now())).Infof(format, args...)
+	args = append([]interface{}{time.Now().Format("2006-01-02 15:04:05.000")}, args...)
+	sugar.Infof("%s - "+format, args...)
 }
 
 func Warnf(format string, args ...interface{}) {
-	sugar.With(zap.Time("ts", time.Now())).Warnf(format, args...)
+	args = append([]interface{}{time.Now().Format("2006-01-02 15:04:05.000")}, args...)
+	sugar.Warnf("%s - "+format, args...)
 }
 
 func Errorf(format string, args ...interface{}) {
-	sugar.With(zap.Time("ts", time.Now())).Errorf(format, args...)
+	args = append([]interface{}{time.Now().Format("2006-01-02 15:04:05.000")}, args...)
+	sugar.Errorf("%s - "+format, args...)
 }
 
 func Panicf(format string, args ...interface{}) {
-	sugar.With(zap.Time("ts", time.Now())).Panicf(format, args...)
+	args = append([]interface{}{time.Now().Format("2006-01-02 15:04:05.000")}, args...)
+	sugar.Panicf("%s - "+format, args...)
 }
 
 func Fatalf(format string, args ...interface{}) {
-	debug.PrintStack()
-	sugar.With(zap.Time("ts", time.Now())).Fatalf(format, args...)
+	args = append([]interface{}{time.Now().Format("2006-01-02 15:04:05.000")}, args...)
+	sugar.Fatalf("%s - "+format, args...)
 }
 
 func Error(args ...interface{}) {
-	sugar.With(zap.Time("ts", time.Now())).Error(args...)
+	args = append([]interface{}{time.Now().Format("2006-01-02 15:04:05.000"), " - "}, args...)
+	sugar.Error(args...)
 }
 
 func Panic(args ...interface{}) {
-	sugar.With(zap.Time("ts", time.Now())).Panic(args...)
+	args = append([]interface{}{time.Now().Format("2006-01-02 15:04:05.000"), " - "}, args...)
+	sugar.Panic(args...)
 }
 
 func Fatal(args ...interface{}) {
-	sugar.With(zap.Time("ts", time.Now())).Fatal(args...)
+	args = append([]interface{}{time.Now().Format("2006-01-02 15:04:05.000"), " - "}, args...)
+	sugar.Fatal(args...)
 }
 
 func setSugar(sugar_ *zap.SugaredLogger) {

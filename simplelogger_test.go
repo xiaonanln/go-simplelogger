@@ -3,7 +3,7 @@ package simplelogger
 import "testing"
 
 func TestSimpleLogger(t *testing.T) {
-	SetOutput([]string{"stderr", "gwlog_test.log"})
+	SetOutput([]string{"stderr", "simplelogger_test.log"})
 	SetLevel(DebugLevel)
 
 	if lv := ParseLevel("debug"); lv != DebugLevel {
@@ -35,7 +35,13 @@ func TestSimpleLogger(t *testing.T) {
 		defer func() {
 			_ = recover()
 		}()
-		Panicf("this is a panic %d", 4)
+		Panicf("this is a panicf %d", 4)
+	}()
+	func() {
+		defer func() {
+			_ = recover()
+		}()
+		Panic("this is a panic", 4)
 	}()
 
 	func() {
