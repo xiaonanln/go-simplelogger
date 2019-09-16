@@ -158,6 +158,30 @@ func Fatal(args ...interface{}) {
 	sugar.Fatal(args...)
 }
 
+func PanicIfError(err error, args ...interface{}) {
+	if err != nil {
+		Panic(args...)
+	}
+}
+
+func PanicfIfError(err error, format string, args ...interface{}) {
+	if err != nil {
+		Panicf(format, args...)
+	}
+}
+
+func FatalIfError(err error, args ...interface{}) {
+	if err != nil {
+		Fatal(args...)
+	}
+}
+
+func FatalfIfError(err error, format string, args ...interface{}) {
+	if err != nil {
+		Fatalf(format, args...)
+	}
+}
+
 func setSugar(sugar_ *zap.SugaredLogger) {
 	sugar = sugar_
 }
