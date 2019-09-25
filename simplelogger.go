@@ -190,7 +190,7 @@ func setSugar(sugar_ *zap.SugaredLogger) {
 type assertLogger struct{}
 
 func (t assertLogger) Errorf(format string, args ...interface{}) {
-	Errorf(format, args...)
+	Panicf(format, args...)
 }
 
 func AssertEqual(expected, actual interface{}, msgAndArgs ...interface{}) bool {
