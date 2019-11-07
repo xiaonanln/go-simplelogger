@@ -7,6 +7,7 @@ import (
 
 	"encoding/json"
 
+	"github.com/stretchr/testify/assert"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"time"
@@ -158,6 +159,76 @@ func Fatal(args ...interface{}) {
 	sugar.Fatal(args...)
 }
 
+func PanicIfError(err error, args ...interface{}) {
+	if err != nil {
+		Panic(args...)
+	}
+}
+
+func PanicfIfError(err error, format string, args ...interface{}) {
+	if err != nil {
+		Panicf(format, args...)
+	}
+}
+
+func FatalIfError(err error, args ...interface{}) {
+	if err != nil {
+		Fatal(args...)
+	}
+}
+
+func FatalfIfError(err error, format string, args ...interface{}) {
+	if err != nil {
+		Fatalf(format, args...)
+	}
+}
+
 func setSugar(sugar_ *zap.SugaredLogger) {
 	sugar = sugar_
+}
+
+type assertLogger struct{}
+
+func (t assertLogger) Errorf(format string, args ...interface{}) {
+	Panicf(format, args...)
+}
+
+func AssertEqual(expected, actual interface{}, msgAndArgs ...interface{}) bool {
+	return assert.Equal(assertLogger{}, expected, actual, msgAndArgs...)
+}
+
+func AssertEqualf(expected interface{}, actual interface{}, msg string, args ...interface{}) bool {
+	return assert.Equalf(assertLogger{}, expected, actual, msg, args...)
+}
+
+func AssertNil(object interface{}, msgAndArgs ...interface{}) bool {
+	return assert.Nil(assertLogger{}, object, msgAndArgs...)
+}
+
+func AssertNotNil(object interface{}, msgAndArgs ...interface{}) bool {
+	return assert.NotNil(assertLogger{}, object, msgAndArgs...)
+}
+
+func AssertNilF(object interface{}, msg string, args ...interface{}) bool {
+	return assert.Nilf(assertLogger{}, object, msg, args...)
+}
+
+func AssertNotNilF(object interface{}, msg string, args ...interface{}) bool {
+	return assert.NotNilf(assertLogger{}, object, msg, args...)
+}
+
+func AssertTrue(value bool, msgAndArgs ...interface{}) bool {
+	return assert.True(assertLogger{}, value, msgAndArgs...)
+}
+
+func AssertFalse(value bool, msgAndArgs ...interface{}) bool {
+	return assert.False(assertLogger{}, value, msgAndArgs...)
+}
+
+func AssertTruef(value bool, msg string, args ...interface{}) bool {
+	return assert.Truef(assertLogger{}, value, msg, args...)
+}
+
+func AssertFalsef(value bool, msg string, args ...interface{}) bool {
+	return assert.Falsef(assertLogger{}, value, msg, args...)
 }
